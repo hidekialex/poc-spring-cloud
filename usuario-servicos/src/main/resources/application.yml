@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: usuarios
+  oauth:
+    url: jdbc:mysql://mysql:3306/oauth
+    username: root
+    password: supersecret
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        show_sql: true
+        hbm2ddl:
+          auto: validate
+server:
+  port: 0
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true

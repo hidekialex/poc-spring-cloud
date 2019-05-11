@@ -1,0 +1,68 @@
+version: '3'
+services:
+  mysql:
+    build:
+      dockerfile: ./oauth-mysql-scripts/Dockerfile
+      context: .
+    image: teste/mysql
+    container_name: mysql
+    networks:
+      - network-teste
+    environment:
+      MYSQL_ROOT_PASSWORD: supersecret
+  eureka:
+    build:
+      dockerfile: ./eureka-exemplo/Dockerfile
+      context: .
+    image: teste/eureka
+    container_name: eureka
+    ports:
+      - 8761:8761
+    networks:
+      - network-teste
+  zuul:
+    build:
+      dockerfile: ./zuul-exemplo/Dockerfile
+      context: .
+    image: teste/zuul
+    container_name: zuul
+    ports:
+      - 8080:8762
+    networks:
+      - network-teste
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
+    depends_on:
+      - "eureka"
+  oauth2:
+    build:
+      dockerfile: ./oauth2-exemplo/Dockerfile
+      context: .
+    image: teste/oauth2
+    container_name: oauth2
+    networks:
+      - network-teste
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
+    depends_on:
+      - "mysql"
+      - "eureka"
+      - "zuul"
+  usuario:
+    build:
+      dockerfile: ./usuario-servicos/Dockerfile
+      context: .
+    image: teste/usuario
+    container_name: usuario
+    networks:
+      - network-teste
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka
+    depends_on:
+      - "mysql"
+      - "eureka"
+      - "zuul"
+      - "oauth2"
+networks:
+  network-teste:
+    driver: bridge
