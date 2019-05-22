@@ -38,5 +38,5 @@ As etapas executadas serão:
 
 ## Abaixo segue a visualizaço macro da arquitetura adotada:
 
-![alt text] https://raw.githubusercontent.com/hidekialex/poc-spring-cloud/master/Arquitetura.png
+![alt text] (https://raw.githubusercontent.com/hidekialex/poc-spring-cloud/master/Arquitetura.png)
 
